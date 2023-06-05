@@ -4,11 +4,12 @@ import java.util.Date;
 import java.util.Scanner;
 
 import model.entities.Reservation;
+import model.exceptions.DomainException;
 
 class Main {
   public static void main(String[] args) {
     // criando exceções personalizadas
-    // SOLUÇÃO BOA
+    // SOLUÇÃO BOA + EXCEÇÕES PERSONALIZADAS
     
     // "throws ParseException" teve de ser removido pois agora essa exceção será tratada, ao invés de propagada
 
@@ -40,9 +41,12 @@ class Main {
     catch (ParseException e) {
       System.out.println("Invalid date format");
     }
-    catch (IllegalArgumentException e) {
+    catch (DomainException e) {
       // getMessage() retorna a mensagem que foi usada na hora de instanciar a exceção no método updateDate()
       System.out.println("Error in reservation: " + e.getMessage());
+    }
+    catch (RuntimeException e) {
+      System.out.println("Unecpected error");
     }
 
     entrada.close();
