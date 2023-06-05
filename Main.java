@@ -8,9 +8,7 @@ import model.entities.Reservation;
 class Main {
   public static void main(String[] args) throws ParseException {
     // criando exceções personalizadas
-    // SOLUÇÃO MUITO RUIM
-
-    // quando vc coloca o "throws ParseException" você está dizendo que o seu método main() pode lançar uma exceção deste tipo, ou seja, o método main() não tem que tratar esse tipo de exceção. Você está propagando a exceção similarmente a "pilha de métodos"
+    // SOLUÇÃO RUIM
 
     Scanner entrada = new Scanner(System.in);
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -36,22 +34,17 @@ class Main {
       checkIn = sdf.parse(entrada.next());
       System.out.print("Check-out date (dd/MM/yyyy): ");
       checkOut = sdf.parse(entrada.next());
-
-      Date now = new Date();
-      if (checkIn.before(now) || checkOut.before(now)) {
-        System.out.println("Error in reservation: Reservation dates for update must be future dates");
-      } 
-      else if (!checkOut.after(checkIn)) {
-        System.out.println("Error in reservation: Check-out date must be after check-in date");
+      
+      String error = reservation.updateDates(checkIn, checkOut);
+      if (error != null) {
+        System.out.println("Error in reservation: " + error);
+        System.out.println();
       }
       else {
-        reservation.updateDates(checkIn, checkOut);
         System.out.println("Reservation: " + reservation);
+        System.out.println();
       }
 
-      reservation.updateDates(checkIn, checkOut);
-      System.out.println("Reservation: " + reservation);
-      System.out.println();
     }
 
     entrada.close();
